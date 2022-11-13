@@ -19,7 +19,7 @@ format="%(message)s",
 datefmt="[%X]",
 handlers=[RichHandler(),
 logging.FileHandler(
-'dloader.log',"w", "utf-8"
+'events.log',"w", "utf-8"
 )]
 )
 logger = logging.getLogger()
@@ -170,6 +170,6 @@ def init():
 
 if __name__=='__main__':
 	if options.api_id is None:
-		connect_to_api()
-	else:
 		init()
+	else:
+		connect_to_api()
