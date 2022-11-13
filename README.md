@@ -1,4 +1,4 @@
-# UpDown Clonechat
+# Telegram Downloader
 
 > Download any media content from TG chats!
 
@@ -14,7 +14,7 @@ Before continue, be sure that you:
 Install python packages:
 
 ```
-pip install tgcrypto pyrogram
+pip install tgcrypto pyrogram rich
 ```
 
 Connect to Telegram API:
