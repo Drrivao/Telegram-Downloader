@@ -36,7 +36,7 @@ def get_name(i,msg_type,mime):
 	savef=f'[{i}] {msg_type}{ext}'
 	return savef
 
-async def func(ch_id,id,client):
+async def func(id,client):
 	msg= await client.get_messages(ch_id, id)
 	msg_media=str(msg.media)
 	msg_type=msg_media.replace('MessageMediaType.','').lower()
@@ -70,12 +70,12 @@ def separate_groups(l, n):
 	for i in range(0, len(l), n):
 		yield l[i:i + n]
 
-async def main(ch_id,groups):
+async def main():
 	client=Client('user')
 	async with client:
 		for subgp in groups:
 			await asyncio.gather(
-				*[func(ch_id,id,client)for id in subgp]
+				*[func(id,client)for id in subgp]
 			)
 	logger.info(
 		"%d files downloaded",len(ids_to_try)-
@@ -110,6 +110,17 @@ def filter_messages(messages,kind):
 				list.append(message.id)	
 	return list,total_size
 
+def connect_to_api():
+	client=Client(
+		'user',
+		options.api_id,
+		options.api_hash
+	)
+	with client:
+		client.send_message(
+			'me',"Message sent with **Telegram Downloader**!"
+		)
+
 system('clear || cls')
 parser = ArgumentParser()
 parser.add_argument("-o","--orig",help="origin chat title")
@@ -128,18 +139,7 @@ if name == 'nt':
 	)
 else:CHAT_TITLE=options.orig
 
-def connect_to_api():
-	client=Client(
-		'user',
-		options.api_id,
-		options.api_hash
-	)
-	with client:
-		client.send_message(
-			'me',"Message sent with **Telegram Downloader**!"
-		)
-
-def init():
+if options.api_id is None:
 	try:
 		app=Client('user')
 		with app:
@@ -157,19 +157,14 @@ def init():
 	except AttributeError:
 		logger.error('No session was found\n')
 		exit()
-
 	if options.ask:
 		info=bytesto(sum(total_size),'GiB')
 		inp=input(
 			f'\nTotal size of files to download: {info}. '+
 			'Do you wish to continue? Y/n: '
 		)
-		print()
 		if inp == 'n':exit()
-	asyncio.run(main(ch_id,groups))
+else:connect_to_api()
 
 if __name__=='__main__':
-	if options.api_id is None:
-		init()
-	else:
-		connect_to_api()
+	asyncio.run(main())
