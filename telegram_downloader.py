@@ -46,7 +46,6 @@ async def func(id,client):
 	elif msg_type == 'voice':savef=get_name(i,'voice',msg.voice.mime_type)
 	elif msg_type == 'video_note':savef=get_name(i,'video_note',msg.video_note.mime_type)
 	else:savef=f'[{i}] '+ search(r'"file_name": "(.*)"',str(msg))[1]
-
 	THIS_DIR = dirname(abspath(__file__))
 	file_path=join(THIS_DIR,'downloads',CHAT_TITLE,msg_type,savef)
 
@@ -100,6 +99,7 @@ def filter_messages(messages,kind):
 	for message in messages:
 		if message.media:
 			if kind is not None:
+				kind=kind.split(",")
 				msg_media=str(message.media)
 				msg_type=msg_media.replace('MessageMediaType.','').lower()
 				if msg_type in kind:
