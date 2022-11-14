@@ -13,20 +13,6 @@ from os.path import (
 dirname,join,abspath,isdir,exists
 )
 
-logging.basicConfig(
-level=logging.INFO,
-format="%(message)s",
-datefmt="[%X]",
-handlers=[RichHandler(),
-logging.FileHandler(
-'events.log',"w", "utf-8"
-)]
-)
-logger = logging.getLogger()
-
-ids_to_try=[]
-skipped_ids=[]
-
 def _is_exist(file_path: str) -> bool:
 	return not isdir(file_path) and exists(file_path)
 
@@ -96,10 +82,11 @@ def get_file_size(message):
 def filter_messages(messages,kind):
 	list=[]
 	total_size=[]
+	kind=kind.split(",") if kind\
+	is not None else None
 	for message in messages:
 		if message.media:
 			if kind is not None:
-				kind=kind.split(",")
 				msg_media=str(message.media)
 				msg_type=msg_media.replace('MessageMediaType.','').lower()
 				if msg_type in kind:
@@ -143,6 +130,19 @@ else:
 if options.api_id is not None:
 	connect_to_api()
 	exit()
+
+ids_to_try=[]
+skipped_ids=[]
+
+logging.basicConfig(
+level=logging.INFO,
+format="%(message)s",
+datefmt="[%X]",
+handlers=[RichHandler(),
+logging.FileHandler(
+'events.log',"w", "utf-8"
+)])
+logger = logging.getLogger()
 
 try:
 	app=Client('user')
