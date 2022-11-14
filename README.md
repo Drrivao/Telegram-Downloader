@@ -11,16 +11,23 @@ Before continue, be sure that you:
 
 ## Install dependencies and start client
 
-Install python packages:
+If you have already installed pyrogram, remove it:
+
+```
+pip uninstall pyrogram
+```
+
+Then, install the following python packages:
 
 ```
 pip install tgcrypto rich https://github.com/Drrivao/pyrogram/archive/refs/heads/master.zip
 ```
 
-Connect to Telegram API:
+Finally, connect to Telegram API:
 ```
 python telegram_downloader.py -i 'YOUR API ID' -s 'YOUR API HASH'
 ```
+
 ## Basic usage
 
 Download all media files from chat:
@@ -34,7 +41,7 @@ For more detail of available options run:
 python telegram_downloader.py --help
 ```
 
-## UpDown Clonechat on colab
+## Telegram Downloader on colab
 
 1. Open the [notebook](https://colab.research.google.com/github/Drrivao/Telegram-Downloader/blob/master/telegram_downloader.ipynb). 
 2. To the first cell insert the path to a shared drive to save program files or ignore this step if you want to save them to your personal drive.
