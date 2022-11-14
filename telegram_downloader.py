@@ -137,34 +137,39 @@ if name == 'nt':
 	asyncio.set_event_loop_policy(
 		asyncio.WindowsSelectorEventLoopPolicy()
 	)
-else:CHAT_TITLE=options.orig
+else:
+	CHAT_TITLE=options.orig
 
-if options.api_id is None:
-	try:
-		app=Client('user')
-		with app:
-			ch_id=get_chat_id(app,options.orig)
-			messages=app.search_messages(ch_id,options.query)
-			ids_to_try,total_size=filter_messages(messages,options.filter)
-		ids_to_try.sort()
-		workers=options.workers if\
-		options.workers < 10 else 10
-		groups = list(separate_groups(ids_to_try, workers))
-	except ValueError:
-		logger.error('No chat found. Be sure you typed the title\n'+
-		'correctly and you participate in.')
+if options.api_id is not None:
+	connect_to_api()
+	exit()
+
+try:
+	app=Client('user')
+	with app:
+		ch_id=get_chat_id(app,options.orig)
+		messages=app.search_messages(ch_id,options.query)
+		ids_to_try,total_size=filter_messages(messages,options.filter)
+	ids_to_try.sort()
+	workers=options.workers if\
+	options.workers < 10 else 10
+	groups = list(separate_groups(ids_to_try, workers))
+except ValueError:
+	logger.error('No chat found. Be sure you typed the title\n'+
+	'correctly and you participate in.')
+	exit()
+except AttributeError:
+	logger.error('No session was found\n')
+	exit()
+	
+if options.ask:
+	info=bytesto(sum(total_size),'GiB')
+	inp=input(
+		f'\nTotal size of files to download: {info}. '+
+		'Do you wish to continue? Y/n: '
+	)
+	if inp == 'n':
 		exit()
-	except AttributeError:
-		logger.error('No session was found\n')
-		exit()
-	if options.ask:
-		info=bytesto(sum(total_size),'GiB')
-		inp=input(
-			f'\nTotal size of files to download: {info}. '+
-			'Do you wish to continue? Y/n: '
-		)
-		if inp == 'n':exit()
-else:connect_to_api()
 
 if __name__=='__main__':
 	asyncio.run(main())

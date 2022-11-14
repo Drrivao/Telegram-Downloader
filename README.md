@@ -14,7 +14,7 @@ Before continue, be sure that you:
 Install python packages:
 
 ```
-pip install tgcrypto pyrogram rich
+pip install tgcrypto rich https://github.com/Drrivao/pyrogram/archive/refs/heads/master.zip
 ```
 
 Connect to Telegram API:
