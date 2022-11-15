@@ -113,7 +113,7 @@ parser = ArgumentParser()
 parser.add_argument("-o","--orig",help="origin chat title")
 parser.add_argument('-w','--workers', type=int,default=5,help="max number of simultaneos downloads")
 parser.add_argument("-f","--filter",type=str,default=None,help="filter messages by kind")
-parser.add_argument("-q","--query",type=str,default="",help="filter messages contais string query")
+parser.add_argument("-q","--query",type=str,default=None,help="filter messages contais string query")
 parser.add_argument("-a","--ask", action=BooleanOptionalAction,help="show total size and ask for download")
 parser.add_argument('-i','--api-id',type=int,help="Your api id")
 parser.add_argument('-s','--api-hash',type=str,help="Your api hash")
@@ -145,10 +145,13 @@ logging.FileHandler(
 logger = logging.getLogger()
 
 try:
-	app=Client('user')
+	app=Client('user',takeout=True)
 	with app:
 		ch_id=get_chat_id(app,options.orig)
-		messages=app.search_messages(ch_id,options.query)
+		if options.query is None:
+			messages=app.get_chat_history(ch_id)
+		else:
+			messages=app.search_messages(ch_id,options.query)
 		ids_to_try,total_size=filter_messages(messages,options.filter)
 	ids_to_try.sort()
 	workers=options.workers if\
