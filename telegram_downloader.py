@@ -115,8 +115,8 @@ parser.add_argument('-w','--workers', type=int,default=5,help="max number of sim
 parser.add_argument("-f","--filter",type=str,default=None,help="filter messages by kind")
 parser.add_argument("-q","--query",type=str,default=None,help="filter messages contais string query")
 parser.add_argument("-a","--ask", action=BooleanOptionalAction,help="show total size and ask for download")
-parser.add_argument('-i','--api-id',type=int,help="Your api id")
-parser.add_argument('-s','--api-hash',type=str,help="Your api hash")
+parser.add_argument('-i','--api-id',help="Your api id")
+parser.add_argument('-s','--api-hash',help="Your api hash")
 options = parser.parse_args()
 
 if name == 'nt':
