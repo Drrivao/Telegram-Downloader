@@ -119,6 +119,10 @@ parser.add_argument('-i','--api-id',help="Your api id")
 parser.add_argument('-s','--api-hash',help="Your api hash")
 options = parser.parse_args()
 
+if options.api_id is not None:
+	connect_to_api()
+	exit()
+
 if name == 'nt':
 	CHAT_TITLE=sub(r'[\W_]+', '_',options.orig)
 	asyncio.set_event_loop_policy(
@@ -126,10 +130,6 @@ if name == 'nt':
 	)
 else:
 	CHAT_TITLE=options.orig
-
-if options.api_id is not None:
-	connect_to_api()
-	exit()
 
 ids_to_try=[]
 skipped_ids=[]
