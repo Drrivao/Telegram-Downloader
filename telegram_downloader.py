@@ -85,16 +85,19 @@ def filter_messages(messages,kind):
 	kind=kind.split(",") if kind\
 	is not None else None
 	for message in messages:
-		if message.media:
-			if kind is not None:
-				msg_media=str(message.media)
-				msg_type=msg_media.replace('MessageMediaType.','').lower()
-				if msg_type in kind:
+		try:
+			if message.media:
+				if kind is not None:
+					msg_media=str(message.media)
+					msg_type=msg_media.replace('MessageMediaType.','').lower()
+					if msg_type in kind:
+						total_size.append(get_file_size(message))
+						list.append(message.id)
+				else:
 					total_size.append(get_file_size(message))
 					list.append(message.id)
-			else:
-				total_size.append(get_file_size(message))
-				list.append(message.id)	
+		except TypeError:
+			pass
 	return list,total_size
 
 def connect_to_api():
