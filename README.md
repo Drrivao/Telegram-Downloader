@@ -32,7 +32,7 @@ python telegram_downloader.py -i 'YOUR API ID' -s 'YOUR API HASH'
 
 Download all media files from chat:
 ```
-python telegram_downloader.py -o 'origin chat title' -w 'number of simultaneous process' -a y
+python telegram_downloader.py -o 'origin chat title' -w 'number of simultaneous process' -a
 ```
 > The default number of simultaneous process is 5 and the maximum is 10.
 
