@@ -11,16 +11,9 @@ Before continue, be sure that you:
 
 ## Install dependencies and start client
 
-If you have already installed pyrogram, remove it:
-
+Install the following packages:
 ```
-pip uninstall pyrogram
-```
-
-Then, install the following python packages:
-
-```
-pip install tgcrypto rich https://github.com/Drrivao/pyrogram/archive/refs/heads/master.zip
+pip uninstall pyrogram && pip install tgcrypto rich pyrogram==2.0.60
 ```
 
 Finally, connect to Telegram API:
