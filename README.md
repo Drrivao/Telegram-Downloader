@@ -18,7 +18,7 @@ pip uninstall pyrogram && pip install tgcrypto rich pyrogram==2.0.60
 
 Finally, connect to Telegram API:
 ```
-python telegram_downloader.py -i 'YOUR API ID' -s 'YOUR API HASH'
+python telegram_downloader.py -i YOUR_API_ID -s YOUR_API_HASH
 ```
 
 ## Basic usage
